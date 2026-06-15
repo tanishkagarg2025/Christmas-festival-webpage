@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Christmas Greeting 🎄</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(#b30000, #006600);
+            color: white;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        section {
+            padding: 80px 20px;
+        }
+
+        h1, h2 {
+            margin-bottom: 20px;
+        }
+
+        input, textarea, button {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            margin: 5px;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .card {
+            background: rgba(255,255,255,0.15);
+            padding: 20px;
+            margin: 15px auto;
+            max-width: 700px;
+            border-radius: 10px;
+        }
+
+        /* ❄️ Snowflakes */
+        .snowflake {
+            position: fixed;
+            top: -10px;
+            color: white;
+            font-size: 14px;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh); }
+        }
+
+        img {
+            width: 250px;
+            border-radius: 10px;
+            margin: 10px;
+        }
+
+        footer {
+            background: rgba(0,0,0,0.3);
+            padding: 30px;
+        }
+/* 🎄 TREE CENTERING & SIZE */
+
+#tree-area {
+    position: relative;
+    width: 420px;          /* controls click area width */
+    margin: 40px auto;     /* centers horizontally */
+}
+
+#tree {
+    width: 420px;          /* BIG tree */
+    height: auto;
+    display: block;
+    margin: auto;
+    user-select: none;
+}
+
+/* Ornaments placed on tree */
+.placed {
+    position: absolute;
+    width: 45px;           /* slightly bigger ornaments */
+    pointer-events: none;
+}
+
+    </style>
+</head>
+
+<body>
+
+<!-- ❄️ Snow Effect -->
+<script>
+    const flakes = ["❄","❅","❆"];
+    for(let i=0;i<40;i++){
+        let s=document.createElement("div");
+        s.className="snowflake";
+        s.innerHTML=flakes[Math.floor(Math.random()*3)];
+        s.style.left=Math.random()*100+"vw";
+        s.style.animationDuration=(Math.random()*3+2)+"s";
+        s.style.fontSize=(Math.random()*10+10)+"px";
+        document.body.appendChild(s);
+    }
+</script>
+
+<!-- 1️⃣ HERO SECTION -->
+<section>
+    <h1>🎄 Merry Christmas 🎅</h1>
+    <form method="POST">
+        <input type="text" name="username" placeholder="Enter your name" required>
+        <button type="submit">Get Greeting 🎁</button>
+    </form>
+
+    {% if name %}
+        <h2>✨ Merry Christmas, {{ name }}!</h2>
+    {% endif %}
+</section>
+
+<!-- 2️⃣ WHY CHRISTMAS -->
+<section>
+    <h2>🎄 Why Christmas Is Special</h2>
+    <div class="card">
+        Christmas celebrates love, kindness, sharing, and togetherness.
+        It reminds us to care for others, forgive, and spread happiness.
+    </div>
+</section>
+
+<!-- 3️⃣ QUOTES -->
+<section>
+    <h2>💬 Christmas Quotes</h2>
+    <div class="card">“Christmas is not a season. It’s a feeling.”</div>
+    <div class="card">“The joy of brightening other lives becomes the magic of Christmas.”</div>
+    <div class="card">“Peace on earth will come when we live Christmas every day.”</div>
+</section>
+
+<!-- 4️⃣ FUN FACTS -->
+<section>
+    <h2>🎅 Fun Christmas Facts</h2>
+    <div class="card">🎄 Christmas trees originated in Germany.</div>
+    <div class="card">🎁 Santa Claus is inspired by Saint Nicholas.</div>
+    <div class="card">🔔 Bells symbolize joy and celebration.</div>
+</section>
+
+<!-- 5️⃣ GIFT IDEAS -->
+<section>
+    <h2>🎁 Gift Ideas</h2>
+    <div class="card">👶 Kids: Toys, coloring books</div>
+    <div class="card">🎓 Teens: Books, gadgets</div>
+    <div class="card">👨‍👩‍👧 Adults: Wellness & home gifts</div>
+</section>
+
+<!-- 6️⃣ COUNTDOWN -->
+<section>
+    <h2>⏳ Countdown to Christmas</h2>
+    <h3 id="countdown"></h3>
+</section>
+
+<script>
+    const xmas = new Date("Dec 25, 2025 00:00:00").getTime();
+    setInterval(()=>{
+        let now = new Date().getTime();
+        let d = xmas - now;
+        let days = Math.floor(d/(1000*60*60*24));
+        document.getElementById("countdown").innerHTML =
+            days + " days left until Christmas 🎄";
+    },1000);
+</script>
+
+<!-- 7️⃣ SEND A WISH -->
+<section>
+    <h2>💌 Send a Christmas Wish</h2>
+    <form method="POST">
+        <input type="text" name="sender" placeholder="Your Name" required><br>
+        <textarea name="message" placeholder="Your message" required></textarea><br>
+        <button type="submit">Send Wish 🎁</button>
+    </form>
+
+    {% if sender and message %}
+        <div class="card">
+            <b>{{ sender }}</b> says:<br>
+            "{{ message }}"
+        </div>
+    {% endif %}
+</section>
+
+<!-- 8️⃣ GALLERY -->
+<section>
+    <h2>📸 Christmas Gallery</h2>
+    <img src="{{ url_for('static', filename='images/tree.jpg') }}">
+<img src="{{ url_for('static', filename='images/lights.jpg') }}">
+<img src="{{ url_for('static', filename='images/gifts.jpg') }}">
+</section>
+<section>
+    <h2>🎶 Christmas Music</h2>
+
+    <audio controls loop>
+        <source src="{{ url_for('static', filename='music/christmas.mp3') }}" type="audio/mpeg">
+        Your browser does not support audio.
+    </audio>
+
+    <div class="card">
+        Click play to enjoy Christmas vibes 🎄
+    </div>
+</section>
+<section>
+    <h2>🎶 Christmas Music</h2>
+    <div class="card">
+        Turn on your favorite Christmas playlist
+        to enjoy this festive experience 🎄
+    </div>
+</section>
+<!-- 🎄 DECORATE YOUR TREE -->
+<section>
+    <h2>🎨 Decorate Your Christmas Tree</h2>
+    <p>Click an ornament, then click on the tree to place it 🎁</p>
+
+    <div style="display:flex; justify-content:center; gap:40px; flex-wrap:wrap;">
+
+        <!-- Tree Area -->
+        <div id="tree-area" style="position:relative;">
+            <img src="{{ url_for('static', filename='images/tree.png') }}"
+                 id="tree">
+        </div>
+
+        <!-- Ornaments -->
+        <div>
+            <h3>🎁 Ornaments</h3>
+            <img src="{{ url_for('static', filename='images/ornament1.png') }}"
+                 class="ornament" width="50">
+            <img src="{{ url_for('static', filename='images/ornament2.png') }}"
+                 class="ornament" width="50">
+            <img src="{{ url_for('static', filename='images/star.png') }}"
+                 class="ornament" width="50">
+        </div>
+
+    </div>
+</section>
+
+
+<!-- 🔟 FOOTER -->
+<footer>
+    Made with ❤️ by <b>Tanishka garg</b><br>
+    Integrated MTech Software Engineering<br>
+    Christmas 2025 🎄
+</footer>
+
+<script>
+    let selectedOrnament = null;
+
+    document.querySelectorAll(".ornament").forEach(item => {
+        item.onclick = () => {
+            selectedOrnament = item.src;
+        };
+    });
+
+    document.getElementById("tree-area").onclick = function(e) {
+        if (!selectedOrnament) return;
+
+        let img = document.createElement("img");
+        img.src = selectedOrnament;
+        img.className = "placed";
+
+        let rect = this.getBoundingClientRect();
+        img.style.left = (e.clientX - rect.left - 20) + "px";
+        img.style.top = (e.clientY - rect.top - 20) + "px";
+
+        this.appendChild(img);
+    };
+</script>
+
+</body>
+</html>
